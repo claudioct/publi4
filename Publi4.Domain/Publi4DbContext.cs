@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Publi4.Domain;
 using Publi4.Domain.Entities;
+using Publi4.Domain.Seed;
 using System;
 
 namespace Publi4.Domain
@@ -68,6 +69,8 @@ namespace Publi4.Domain
                 entity.ToTable("UserTokens");
                 entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
             });
+
+            builder.Seed();
         }
     }
 }

@@ -34,19 +34,39 @@ namespace Publi4
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.None;                
             });
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(1);                
+            });
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/LogIn");
 
             services.AddDbContext<Publi4DbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Publi4DbContextConnection")));
 
-            services.AddIdentity<Publi4User, Publi4Role>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<Publi4User, Publi4Role>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequiredLength = 6;
+
+            })
                 .AddEntityFrameworkStores<Publi4DbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddMvc();
+
 
             // Add application services.
 #if DEBUG
