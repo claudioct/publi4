@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Publi4.Data;
+using Publi4.Domain;
 
-namespace Publi4.Migrations
+namespace Publi4.Domain.Migrations
 {
     [DbContext(typeof(Publi4DbContext))]
     partial class Publi4DbContextModelSnapshot : ModelSnapshot
@@ -120,12 +120,13 @@ namespace Publi4.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("Publi4.Domain.Publi4Role", b =>
+            modelBuilder.Entity("Publi4.Domain.Entities.Publi4Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -149,12 +150,13 @@ namespace Publi4.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Publi4.Domain.Publi4User", b =>
+            modelBuilder.Entity("Publi4.Domain.Entities.Publi4User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -218,7 +220,7 @@ namespace Publi4.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Publi4.Domain.Publi4Role", null)
+                    b.HasOne("Publi4.Domain.Entities.Publi4Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,7 +229,7 @@ namespace Publi4.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Publi4.Domain.Publi4User", null)
+                    b.HasOne("Publi4.Domain.Entities.Publi4User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -236,7 +238,7 @@ namespace Publi4.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Publi4.Domain.Publi4User", null)
+                    b.HasOne("Publi4.Domain.Entities.Publi4User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -245,13 +247,13 @@ namespace Publi4.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Publi4.Domain.Publi4Role", null)
+                    b.HasOne("Publi4.Domain.Entities.Publi4Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Publi4.Domain.Publi4User", null)
+                    b.HasOne("Publi4.Domain.Entities.Publi4User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -260,7 +262,7 @@ namespace Publi4.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Publi4.Domain.Publi4User", null)
+                    b.HasOne("Publi4.Domain.Entities.Publi4User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

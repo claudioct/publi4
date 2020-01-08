@@ -5,11 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ASPNET_Core_3.Controllers
+namespace Publi4.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Main()
+        public IActionResult Index()
         {
             return View();
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Publi4.Migrations
+namespace Publi4.Domain.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class IdentityMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace Publi4.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    RoleId = table.Column<Guid>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false, defaultValueSql: "newsequentialid()"),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -25,7 +25,7 @@ namespace Publi4.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false, defaultValueSql: "newsequentialid()"),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),

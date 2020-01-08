@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Publi4.Domain;
+using Publi4.Domain.Entities;
 using System;
 
-namespace Publi4.Data
+namespace Publi4.Domain
 {
     public class Publi4DbContext : IdentityDbContext<Publi4User, Publi4Role, Guid>
     {
@@ -19,6 +20,16 @@ namespace Publi4.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<Publi4User>(b =>
+            {
+                b.Property(u => u.Id).HasDefaultValueSql("newsequentialid()");
+            });
+
+            builder.Entity<Publi4Role>(b =>
+            {
+                b.Property(u => u.Id).HasDefaultValueSql("newsequentialid()");
+            });
 
             //Identity core table names
             builder.Entity<Publi4User>(entity =>

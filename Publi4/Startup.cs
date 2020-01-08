@@ -7,13 +7,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Publi4.Data;
 using Publi4.Domain;
+using Publi4.Domain.Entities;
+using Publi4.Services;
 
 namespace Publi4
 {
@@ -45,6 +47,18 @@ namespace Publi4
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Add application services.
+#if DEBUG
+            {
+                services.AddTransient<IEmailSender, AuthMessageSenderDummy>();
+            }
+#else
+            {
+                services.AddTransient<IEmailSender, EmailMessageSender>();
+                services.AddTransient<ISmsSender, EmailMessageSender>();
+        }
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,16 +78,16 @@ namespace Publi4
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Main}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

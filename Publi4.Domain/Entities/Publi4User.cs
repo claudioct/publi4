@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace Publi4.Domain
+namespace Publi4.Domain.Entities
 {
     // Add profile data for application users by adding properties to the Publi4User class
     public class Publi4User : IdentityUser<Guid>
