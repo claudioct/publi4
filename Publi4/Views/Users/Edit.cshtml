@@ -1,0 +1,80 @@
+@using Publi4.Controllers
+@model Publi4.Models.AccountViewModels.UserForCreationViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@Publi4.Controllers.UsersController.PageTitle</h2>
+        <ol class="breadcrumb">
+            <li>
+                @Html.ActionLink("Lista", "Index")
+            </li>
+            <li class="active">
+                <strong>Editar</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Editar @UsersController.ContentName.ToLower()</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <form asp-action="Edit" id="inputForm">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div asp-validation-summary="All" class="col-md-7 col-md-offset-2 text-danger"></div>
+                            </div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                                <div class="col-md-7">
+                                    <input asp-for="FirstName" class="form-control" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName" class="col-md-2 control-label"></label>
+                                <div class="col-md-7">
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="col-md-2 control-label"></label>
+                                <div class="col-md-7">
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button value="Salvar" class="btn btn-primary ladda-button" data-style="zoom-in">Salvar</button>
+                                    <a asp-action="Index" class="btn btn-white">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
