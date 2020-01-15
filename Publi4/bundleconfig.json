@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/lib/jasny-bootstrap/dist/css/jasny-bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/lib/jasny-bootstrap/dist/css/jasny-bootstrap.css"
+    ]
+  }
+]

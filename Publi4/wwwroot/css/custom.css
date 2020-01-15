@@ -1,0 +1,6 @@
+﻿.table > tbody > tr > td {
+    vertical-align: middle;
+}
+.calendar-text {
+    margin-top: .3em;
+}

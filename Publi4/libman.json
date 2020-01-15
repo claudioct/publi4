@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "globalize@1.4.2",
+      "destination": "wwwroot/lib_cdnjs/globalize/",
+      "files": [
+        "globalize.js",
+        "globalize.min.js",
+        "globalize.min.js.map"
+      ]
+    }
+  ]
+}

@@ -1,8 +1,24 @@
 ﻿<environment include="Development">
-    <script src="~/Identity/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/globalize/globalize.js"></script>
+    <script src="~/lib/globalize/cultures/globalize.culture.pt-BR.js"></script>
+
+    <!-- Jasny ! Input mask-->
+    <script src="~/lib/jasny-bootstrap/dist/js/jasny-bootstrap.js"></script>
+
+    <!-- Ladda -->
+    <script src="~/lib/ladda/dist/spin.min.js"></script>
+    <script src="~/lib/ladda/dist/ladda.min.js"></script>
+    <script src="~/lib/ladda/dist/ladda.jquery.min.js"></script>
+
+    <script src="~/js/preventDoubleSubmission.js"></script>
+
+    <script src="~/js/file-validator.js"></script>
+
+
 </environment>
-<environment exclude="Development">
+@*<environment exclude="Development">
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"
             asp-fallback-src="~/Identity/lib/jquery-validation/dist/jquery.validate.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.validator"
@@ -15,4 +31,4 @@
             crossorigin="anonymous"
             integrity="sha384-ifv0TYDWxBHzvAk2Z0n8R434FL1Rlv/Av18DXE43N/1rvHyOG4izKst0f2iSLdds">
     </script>
-</environment>
+</environment>*@
