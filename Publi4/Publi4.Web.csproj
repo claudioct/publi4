@@ -45,21 +45,4 @@
     <ProjectReference Include="..\Publi4.Domain\Publi4.Domain.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Compile Update="Resources\ModelBindingValidationMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ModelBindingValidationMessages.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\ModelBindingValidationMessages.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModelBindingValidationMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
 </Project>

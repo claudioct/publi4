@@ -177,7 +177,7 @@ namespace Publi4.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogCritical(0, ex, $"Erro ao atualizar usuário. UserId: {userForCreation.Id}");
-                    ModelState.AddModelError("ErroUpdate", Publi4.Resources.ModelBindingValidationMessages.CriticalErrorUpdate);
+                    ModelState.AddModelError("ErroUpdate", Publi4.Domain.Resources.ModelBindingValidationMessages.CriticalErrorUpdate);
                     return View(userForCreation);
                 }
                 return RedirectToAction("Index");

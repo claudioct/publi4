@@ -15,6 +15,8 @@ namespace Publi4.Domain
         {
         }
 
+        public DbSet<CompanyEntity> Companies;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

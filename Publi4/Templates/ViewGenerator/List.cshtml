@@ -1,0 +1,158 @@
+﻿@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+@@model @GetEnumerableTypeExpression(Model.ViewDataTypeName)
+
+@{
+    if (Model.IsPartialView)
+    {
+    }
+    else if (Model.IsLayoutPageSelected)
+    {
+@:@@{
+    @:ViewData["Title"] = "@Model.ViewName";
+        if (!string.IsNullOrEmpty(Model.LayoutPageFile))
+        {
+    @:Layout = "@Model.LayoutPageFile";
+        }
+@:}
+@:
+    }
+    else
+    {
+@:@@{
+    @:Layout = null;
+@:}
+@:
+@:<!DOCTYPE html>
+@:
+@:<html>
+@:<head>
+    @:<meta name="viewport" content="width=device-width" />
+    @:<title>@Model.ViewName</title>
+@:</head>
+@:<body>
+        //    PushIndent("    ");
+    }
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@@ViewBag.PageTitle</h2>
+    </div>
+</div>
+@:<div class="wrapper wrapper-content animated fadeInRight">
+    @:<div class="row">
+        @:<div class="col-lg-12">
+            @:<div class="ibox float-e-margins">
+                @:<div class="ibox-title">
+                    <h5>Lista de @@ViewBag.PageTitle</h5>
+                    <div class="ibox-tools">
+                        <div class="tooltip-wrapper btn-group">
+                            <a asp-action="Create" class="btn btn-info btn-primary btn-create"><i class="fa fa-plus-square"></i> Criar novo</a>
+                        </div>
+                    </div>
+                @:</div>
+                @:<div class="ibox-content">
+                    @:<table class="table table-striped">
+                        @:<thead>
+                            @:<tr>
+
+                            var properties = Model.ModelMetadata.Properties;
+                            foreach (var property in properties)
+                            {
+                                if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey)
+                                {
+                                    <th>
+                                        @@Html.DisplayNameFor(model => model.@GetValueExpression(property))
+                                    </th>
+                                }
+                            }
+                            foreach (var navigation in Model.ModelMetadata.Navigations)
+                            {
+                                <th>
+                                    @@Html.DisplayNameFor(model => model.@GetValueExpression(navigation))
+                                </th>
+                            }
+                                @:<th></th>
+                            @:</tr>
+                        @:</thead>
+                        @:<tbody>
+                                @:@@foreach (var item in Model) {
+                                        @:<tr>
+                                        foreach (PropertyMetadata property in properties)
+                                        {
+                                            if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey)
+                                            {
+                                            <td>
+                                                @@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
+                                            </td>
+                                            }
+                                        }
+                                        foreach (var navigation in Model.ModelMetadata.Navigations)
+                                        {
+                                            <td>
+                                                @@Html.DisplayFor(modelItem => item.@GetValueExpression(navigation).@navigation.DisplayPropertyName)
+                                            </td>
+                                        }
+                                        string pkName = GetPrimaryKeyName();
+                                        if (pkName != null)
+                                        {
+                                            @:<td>
+                                                    @:<div class="clearfix">
+                                                        @:<div class="tooltip-wrapper btn-group pull-right">
+                                                            @:<a asp-action="Edit" asp-route-id="@@item.@pkName" class="btn btn-primary btn-sm" alt="Editar" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                                            @:<a asp-action="Details" asp-route-id="@@item.@pkName" class="btn btn-primary btn-sm" alt="Detalhes" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detalhes"><i class="fa fa-file-text"></i></a>
+                                                            @:<a asp-action="Delete" asp-route-id="@@item.@pkName" class="btn btn-danger btn-sm" alt="Apagar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Apagar"><i class="fa fa-trash-o"></i></a>
+                                                         @:</div>
+                                                    @:</div>
+                                            @:</td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                                @@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                                @@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                            </td>
+                                        }
+                                        @:</tr>
+                                @:}
+                        @:</tbody>
+
+                    @:</table>                    
+                @:</div>
+            @:</div>
+        @:</div>
+    @:</div>
+@:</div>
+
+    if(!Model.IsPartialView && !Model.IsLayoutPageSelected)
+    {
+        //ClearIndent();
+@:</body>
+@:</html>
+    }
+}
+@functions
+{
+    string GetPrimaryKeyName()
+    {
+        return (Model.ModelMetadata.PrimaryKeys != null && Model.ModelMetadata.PrimaryKeys.Length == 1)
+        ? Model.ModelMetadata.PrimaryKeys[0].PropertyName
+        : null;
+    }
+
+    string GetValueExpression(PropertyMetadata property)
+    {
+        return property.PropertyName;
+    }
+
+    string GetValueExpression(NavigationMetadata navigation)
+    {
+        return navigation.AssociationPropertyName;
+    }
+
+    string GetEnumerableTypeExpression(string typeName)
+    {
+        return "IEnumerable<" + typeName + ">";
+    }
+}

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Publi4.Resources {
+namespace Publi4.Domain.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Publi4.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Publi4.Resources.ModelBindingValidationMessages", typeof(ModelBindingValidationMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Publi4.Domain.Resources.ModelBindingValidationMessages", typeof(ModelBindingValidationMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
