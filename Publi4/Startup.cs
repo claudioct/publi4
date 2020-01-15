@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -67,7 +68,7 @@ namespace Publi4
             services.AddRazorPages();
             services.AddMvc();
 
-
+            services.AddAutoMapper(typeof(Startup));
             // Add application services.
 #if DEBUG
             {

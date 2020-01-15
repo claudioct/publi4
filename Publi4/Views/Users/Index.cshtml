@@ -1,0 +1,110 @@
+@using Publi4.Controllers
+@using Publi4.Domain.Entities
+@model IEnumerable<Publi4User>
+
+@{
+//ViewBag.Title = "Index";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>@UsersController.PageTitle</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Lista de @UsersController.PageTitle.ToLower()</h5>
+          <div class="ibox-tools">
+            <div class="tooltip-wrapper btn-group">
+              <a asp-action="Create" class="btn btn-info btn-primary btn-create"><i class="fa fa-plus-square"></i> Criar novo</a>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-content">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>
+                  @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.Perfil)
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var item in Model)
+              {
+                  <tr>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Perfil)
+                    </td>
+                    <td>
+                      <div class="clearfix">
+                        <div class="tooltip-wrapper btn-group pull-right">
+                          <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm" alt="Editar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                          <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm" alt="Detalhes" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detalhes"><i class="fa fa-file-text"></i></a>
+                          <a class="btn btn-primary btn-sm" data-id="@Html.DisplayFor(modelItem => item.Id)" data-email="@Html.DisplayFor(modelItem => item.Email)" alt="Trocar senha" data-toggle="tooltip" data-placement="top" title="" data-original-title="Trocar senha"><i class="fa fa-eraser"></i></a>
+                          <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" alt="Apagar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Apagar"><i class="fa fa-trash-o"></i></a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+              }
+            </tbody>
+          </table>
+
+          <div class="modal inmodal" id="resetPasswordModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content animated fadeIn">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <i class="fa fa-exclamation modal-icon"></i>
+                  <h4 class="modal-title">Troca de Senha</h4>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    Olá, você está prestes a enviar um email de troca de senha.
+                  </p>
+                  <p>
+                    Será enviado um e-mail para <span id="userEmail"> com as instruções e os próximos passos.</span>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="SendReset(this)" id="sendReset">Confirmar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="~/js/change-password-admin.min.js"></script>
+}

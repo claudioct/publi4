@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Publi4.Domain.Seed;
+using Publi4.Helpers;
 namespace Publi4
 {
     public class Program
