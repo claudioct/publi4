@@ -11,6 +11,7 @@ namespace Publi4.Domain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("IdCompany")]
         public Guid IdCompany { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Domain.Resources.ModelBindingValidationMessages))]

@@ -10,12 +10,14 @@ namespace Publi4.Domain
 {
     public class Publi4DbContext : IdentityDbContext<Publi4User, Publi4Role, Guid>
     {
+        public DbSet<CompanyEntity> Companies { get; set; }
+
         public Publi4DbContext(DbContextOptions<Publi4DbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<CompanyEntity> Companies;
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

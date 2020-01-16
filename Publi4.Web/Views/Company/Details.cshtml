@@ -1,0 +1,54 @@
+﻿@model Publi4.Domain.Entities.CompanyEntity
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@ViewBag.PageTitle</h2>
+        <ol class="breadcrumb">
+            <li>
+                @Html.ActionLink("Lista", "Index")
+            </li>
+            <li class="active">
+                <strong>Detalhes</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            @Html.ActionLink("Lista", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Detalhes @ViewBag.ContentName</h5>
+                </div>
+                <div class="ibox-content">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Nome)
+                        </dd>
+    </dl>
+                    <div>
+                            <a asp-action="Edit" asp-route-id="@Model.IdCompany" class="btn btn-primary">Editar</a>
+                            <a asp-action="Index" class = "btn btn-white">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+</div>
