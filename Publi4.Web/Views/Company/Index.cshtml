@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Publi4.Domain.Entities.CompanyEntity>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@ViewBag.PageTitle</h2>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Lista de @ViewBag.PageTitle</h5>
+                    <div class="ibox-tools">
+                        <div class="tooltip-wrapper btn-group">
+                            <a asp-action="Create" class="btn btn-info btn-primary btn-create"><i class="fa fa-plus-square"></i> Criar novo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Nome)
+                                    </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                @foreach (var item in Model) {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Nome)
+                                            </td>
+                                            <td>
+                                                    <div class="clearfix">
+                                                        <div class="tooltip-wrapper btn-group pull-right">
+                                                            <a asp-action="Edit" asp-route-id="@item.IdCompany" class="btn btn-primary btn-sm" alt="Editar" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                                            <a asp-action="Details" asp-route-id="@item.IdCompany" class="btn btn-primary btn-sm" alt="Detalhes" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detalhes"><i class="fa fa-file-text"></i></a>
+                                                            <a asp-action="Delete" asp-route-id="@item.IdCompany" class="btn btn-danger btn-sm" alt="Apagar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Apagar"><i class="fa fa-trash-o"></i></a>
+                                                         </div>
+                                                    </div>
+                                            </td>
+                                        </tr>
+                                }
+                        </tbody>
+                    </table>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

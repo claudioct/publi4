@@ -76,8 +76,8 @@ namespace Publi4
             }
 #else
             {
-                services.AddTransient<IEmailSender, EmailMessageSender>();
-                services.AddTransient<ISmsSender, EmailMessageSender>();
+                //services.AddTransient<IEmailSender, EmailMessageSender>();
+                //services.AddTransient<ISmsSender, EmailMessageSender>();
         }
 #endif
         }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publi4", "Publi4\Publi4.csproj", "{5169DC6F-65F2-4C50-B81C-89DB720DF25E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publi4.Web", "Publi4.Web\Publi4.Web.csproj", "{5169DC6F-65F2-4C50-B81C-89DB720DF25E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Publi4.Domain", "Publi4.Domain\Publi4.Domain.csproj", "{70AEE43F-A162-465F-9638-2470D34EDFE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publi4.Domain", "Publi4.Domain\Publi4.Domain.csproj", "{70AEE43F-A162-465F-9638-2470D34EDFE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
