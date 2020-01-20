@@ -92,6 +92,8 @@ namespace Publi4
                 //services.AddTransient<ISmsSender, EmailMessageSender>();
         }
 #endif
+
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
