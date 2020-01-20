@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +65,11 @@ namespace Publi4
 
             })
                 .AddEntityFrameworkStores<Publi4DbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddUserStore<UserStore<Publi4User, Publi4Role, Publi4DbContext, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityUserToken<Guid>, IdentityRoleClaim<Guid>>>()
+                .AddRoleStore<RoleStore<Publi4Role, Publi4DbContext, Guid, UserRole, IdentityRoleClaim<Guid>>>();
+
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -72,6 +77,7 @@ namespace Publi4
 
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             // Add application services.
 #if DEBUG
             {

@@ -15,6 +15,7 @@ using Publi4.Models.AccountViewModels;
 using Publi4.Domain.Repositories.Interfaces;
 using Publi4.Web.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Publi4.Web.Models.AccountViewModels;
 
 namespace Publi4.Controllers
 {
@@ -27,6 +28,8 @@ namespace Publi4.Controllers
         private readonly ILogger<UsersController> _logger;
         private readonly IMapper _mapper;
         private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly RoleManager<Publi4Role> _roleManager;
 
         public static string PageTitle => "Usuários";
         public static string ContentName => "Usuário";
@@ -36,7 +39,9 @@ namespace Publi4.Controllers
                                IEmailSender emailSender,
                                ILoggerFactory loggerFactory,
                                IMapper mapper,
-                               ICompanyRepository companyRepository)
+                               ICompanyRepository companyRepository,
+                               IUserRepository userRepository,
+                               RoleManager<Publi4Role> roleManager)
         {
             _context = context;
             _userManager = userManager;
@@ -44,36 +49,16 @@ namespace Publi4.Controllers
             _logger = loggerFactory.CreateLogger<UsersController>();
             _mapper = mapper;
             _companyRepository = companyRepository;
+            _userRepository = userRepository;
+            _roleManager = roleManager;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var redatores = await _userManager.GetUsersInRoleAsync("Redator");
-            var clientes = await _userManager.GetUsersInRoleAsync("Cliente");
-
-            await Task.Run(() =>
-            {
-                foreach (var user in redatores)
-                {
-                    user.Perfil = "Redator";
-                }
-            });
-            await Task.Run(() =>
-             {
-                 foreach (var admin in clientes)
-                 {
-                     admin.Perfil = "Cliente";
-                 }
-             });
-
-            Task.WaitAll();
-
-            List<Publi4User> allUsers = new List<Publi4User>();
-            allUsers.AddRange(redatores);
-            allUsers.AddRange(clientes);
-
-            return View(allUsers);
+            var allUser = await _userRepository.GetAllWithRoles();
+            var userList = _mapper.Map<List<UserViewModel>>(allUser);
+            return View(userList);
         }
 
         // GET: Users/Details/5
@@ -123,24 +108,20 @@ namespace Publi4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserForCreationViewModel userForCreation)
         {
-            if (string.IsNullOrWhiteSpace(userForCreation.UserType) && !(userForCreation.UserType == "Administrator" || userForCreation.UserType == "User"))
-            {
-                ModelState.AddModelError("PerfilInválido", "Não foi selecionado um perfil válido.");
-            }
-
             if (ModelState.IsValid)
             {
                 userForCreation.Id = Guid.NewGuid();
                 var applicationUser = _mapper.Map<Publi4User>(userForCreation);
                 applicationUser.UserName = userForCreation.Email;
+                applicationUser.Company = await _companyRepository.GetById(new Guid(userForCreation.Company));
                 var userResult = await _userManager.CreateAsync(applicationUser, userForCreation.Password);
                 if (userResult.Succeeded)
                 {
-                    if (userForCreation.UserType == "Redator")
+                    if (userForCreation.Company == null)
                     {
                         await _userManager.AddToRoleAsync(applicationUser, "Redator");
                     }
-                    else if (userForCreation.UserType == "Cliente")
+                    else
                     {
                         await _userManager.AddToRoleAsync(applicationUser, "Cliente");
                     }

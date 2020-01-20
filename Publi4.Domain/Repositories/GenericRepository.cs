@@ -13,6 +13,7 @@ namespace Publi4.Domain.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly Publi4DbContext _context;
+        public Publi4DbContext Context => _context;
 
         public GenericRepository() { }
 

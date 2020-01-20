@@ -1,6 +1,6 @@
 @using Publi4.Controllers
 @using Publi4.Domain.Entities
-@model IEnumerable<Publi4User>
+@model IEnumerable<Publi4.Web.Models.AccountViewModels.UserViewModel>
 
 @{
 //ViewBag.Title = "Index";
@@ -29,49 +29,55 @@
 
           <table class="table table-striped">
             <thead>
-              <tr>
-                <th>
-                  @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                  @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                  @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                  @Html.DisplayNameFor(model => model.Perfil)
-                </th>
-                <th></th>
-              </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Perfil)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Company)
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
               @foreach (var item in Model)
               {
-                  <tr>
+                <tr>
                     <td>
-                      @Html.DisplayFor(modelItem => item.FirstName)
+                        @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
                     <td>
-                      @Html.DisplayFor(modelItem => item.LastName)
+                        @Html.DisplayFor(modelItem => item.LastName)
                     </td>
                     <td>
-                      @Html.DisplayFor(modelItem => item.Email)
+                        @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
-                      @Html.DisplayFor(modelItem => item.Perfil)
+                        @Html.DisplayFor(modelItem => item.Perfil)
                     </td>
                     <td>
-                      <div class="clearfix">
-                        <div class="tooltip-wrapper btn-group pull-right">
-                          <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm" alt="Editar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>
-                          <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm" alt="Detalhes" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detalhes"><i class="fa fa-file-text"></i></a>
-                          <a class="btn btn-primary btn-sm" data-id="@Html.DisplayFor(modelItem => item.Id)" data-email="@Html.DisplayFor(modelItem => item.Email)" alt="Trocar senha" data-toggle="tooltip" data-placement="top" title="" data-original-title="Trocar senha"><i class="fa fa-eraser"></i></a>
-                          <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" alt="Apagar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Apagar"><i class="fa fa-trash-o"></i></a>
+                        @Html.DisplayFor(modelItem => item.Company)
+                    </td>
+                    <td>
+                        <div class="clearfix">
+                            <div class="tooltip-wrapper btn-group pull-right">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm" alt="Editar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm" alt="Detalhes" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detalhes"><i class="fa fa-file-text"></i></a>
+                                <a class="btn btn-primary btn-sm" data-id="@Html.DisplayFor(modelItem => item.Id)" data-email="@Html.DisplayFor(modelItem => item.Email)" alt="Trocar senha" data-toggle="tooltip" data-placement="top" title="" data-original-title="Trocar senha"><i class="fa fa-eraser"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" alt="Apagar" data-toggle="tooltip" data-placement="top" title="" data-original-title="Apagar"><i class="fa fa-trash-o"></i></a>
+                            </div>
                         </div>
-                      </div>
                     </td>
-                  </tr>
+                </tr>
               }
             </tbody>
           </table>

@@ -10,8 +10,8 @@ using Publi4.Domain;
 namespace Publi4.Domain.Migrations
 {
     [DbContext(typeof(Publi4DbContext))]
-    [Migration("20200116002138_Companies")]
-    partial class Companies
+    [Migration("20200120172725_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,21 +86,6 @@ namespace Publi4.Domain.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserLogins");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -180,6 +165,9 @@ namespace Publi4.Domain.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("CompanyIdCompany")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -232,6 +220,8 @@ namespace Publi4.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyIdCompany");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -241,6 +231,21 @@ namespace Publi4.Domain.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Publi4.Domain.Entities.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -270,14 +275,8 @@ namespace Publi4.Domain.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Publi4.Domain.Entities.Publi4Role", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Publi4.Domain.Entities.Publi4User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -285,10 +284,23 @@ namespace Publi4.Domain.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            modelBuilder.Entity("Publi4.Domain.Entities.Publi4User", b =>
                 {
-                    b.HasOne("Publi4.Domain.Entities.Publi4User", null)
+                    b.HasOne("Publi4.Domain.Entities.CompanyEntity", "Company")
                         .WithMany()
+                        .HasForeignKey("CompanyIdCompany");
+                });
+
+            modelBuilder.Entity("Publi4.Domain.Entities.UserRole", b =>
+                {
+                    b.HasOne("Publi4.Domain.Entities.Publi4Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Publi4.Domain.Entities.Publi4User", "User")
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -8,7 +8,10 @@ using System;
 
 namespace Publi4.Domain
 {
-    public class Publi4DbContext : IdentityDbContext<Publi4User, Publi4Role, Guid>
+    public class Publi4DbContext
+        : IdentityDbContext<Publi4User, Publi4Role, Guid, IdentityUserClaim<Guid>,
+    UserRole, IdentityUserLogin<Guid>,
+    IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
         public DbSet<CompanyEntity> Companies { get; set; }
 
@@ -17,7 +20,7 @@ namespace Publi4.Domain
         {
         }
 
-        
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,31 +29,44 @@ namespace Publi4.Domain
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
-            builder.Entity<Publi4User>(b =>
-            {
-                b.Property(u => u.Id).HasDefaultValueSql("newsequentialid()");
-            });
-
-            builder.Entity<Publi4Role>(b =>
-            {
-                b.Property(u => u.Id).HasDefaultValueSql("newsequentialid()");
-            });
-
             //Identity core table names
             builder.Entity<Publi4User>(entity =>
             {
-                entity.ToTable(name: "Users").Property(e => e.Id).HasColumnName("UserId");
+                entity.ToTable(name: "Users")
+                      .Property(e => e.Id)
+                      .HasColumnName("UserId")
+                      .HasDefaultValueSql("newsequentialid()");
+
+                entity.HasMany(u => u.Roles)
+                     .WithOne(ur => ur.User)
+                     .HasForeignKey(ur => ur.UserId)
+                     .IsRequired();
             });
 
-            builder.Entity<Publi4Role>(entity =>
+            builder.Entity<Publi4Role>(role =>
             {
-                entity.ToTable("Roles").Property(e => e.Id).HasColumnName("RoleId");
+                role.ToTable("Roles")
+                    .Property(e => e.Id)
+                    .HasColumnName("RoleId")
+                    .HasDefaultValueSql("newsequentialid()");
+
+                role.HasKey(r => r.Id);
+                role.HasIndex(r => r.NormalizedName).HasName("RoleNameIndex").IsUnique();
+                role.Property(r => r.ConcurrencyStamp).IsConcurrencyToken();
+
+                role.Property(u => u.Name).HasMaxLength(256);
+                role.Property(u => u.NormalizedName).HasMaxLength(256);
+
+                role.HasMany<UserRole>()
+                    .WithOne(ur => ur.Role)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+                role.HasMany<IdentityRoleClaim<Guid>>()
+                    .WithOne()
+                    .HasForeignKey(rc => rc.RoleId)
+                    .IsRequired();
             });
 
-            builder.Entity<IdentityUserRole<Guid>>(entity =>
-            {
-                entity.ToTable("UserRoles");
-            });
 
             builder.Entity<IdentityUserClaim<Guid>>(entity =>
             {
@@ -66,12 +82,19 @@ namespace Publi4.Domain
             builder.Entity<IdentityRoleClaim<Guid>>(entity =>
             {
                 entity.ToTable("RoleClaims");
+                entity.HasKey(rc => rc.Id);
             });
 
             builder.Entity<IdentityUserToken<Guid>>(entity =>
             {
                 entity.ToTable("UserTokens");
                 entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
+            });
+
+            builder.Entity<UserRole>(userRole =>
+            {
+                userRole.ToTable("UserRoles");
+                userRole.HasKey(r => new { r.UserId, r.RoleId });
             });
 
             builder.Seed();
