@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Publi4.Domain.Entities;
 using Publi4.Domain;
 using Publi4.Models.AccountViewModels;
+using Publi4.Domain.Repositories.Interfaces;
+using Publi4.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Publi4.Controllers
 {
@@ -23,17 +26,24 @@ namespace Publi4.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger<UsersController> _logger;
         private readonly IMapper _mapper;
+        private readonly ICompanyRepository _companyRepository;
 
         public static string PageTitle => "Usuários";
         public static string ContentName => "Usuário";
 
-        public UsersController(Publi4DbContext context, UserManager<Publi4User> userManager, IEmailSender emailSender, ILoggerFactory loggerFactory, IMapper mapper)
+        public UsersController(Publi4DbContext context,
+                               UserManager<Publi4User> userManager,
+                               IEmailSender emailSender,
+                               ILoggerFactory loggerFactory,
+                               IMapper mapper,
+                               ICompanyRepository companyRepository)
         {
             _context = context;
             _userManager = userManager;
             _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger<UsersController>();
             _mapper = mapper;
+            _companyRepository = companyRepository;
         }
 
         // GET: Users
@@ -73,10 +83,10 @@ namespace Publi4.Controllers
             {
                 return NotFound();
             }
-            
+
             var user = _mapper.Map<UserForCreationViewModel>(await _context.Users
                 .SingleOrDefaultAsync(m => m.Id == id));
-            
+
             if (user == null)
             {
                 return NotFound();
@@ -85,10 +95,25 @@ namespace Publi4.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
-        public IActionResult Create()
+        // GET: Users/CreateRedator
+        public IActionResult CreateRedator()
         {
-            return View();
+            ViewBag.Tipo = "Redator";
+            return View("Create");
+        }
+
+        // GET: Users/CreateCliente
+        public IActionResult CreateCliente()
+        {
+            var companieEntityList = _companyRepository.GetAll().ToList();
+            var companies = _mapper.Map<List<CompanyModel>>(companieEntityList);
+            ViewBag.Tipo = "Cliente";
+            ViewBag.Companies = companies
+                .Select(c => new SelectListItem()
+                    { Text = c.Nome, Value = c.IdCompany.ToString() })
+                .ToList();
+
+            return View("Create");
         }
 
         // POST: Users/Create
@@ -244,7 +269,7 @@ namespace Publi4.Controllers
             {
                 return NotFound();
             }
-            
+
             var userForCreation = _mapper.Map<UserForCreationViewModel>(await _context.Users
                 .SingleOrDefaultAsync(m => m.Id == id));
 

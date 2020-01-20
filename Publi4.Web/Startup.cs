@@ -16,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Publi4.Domain;
 using Publi4.Domain.Entities;
+using Publi4.Domain.Repositories;
+using Publi4.Domain.Repositories.Interfaces;
 using Publi4.Services;
 
 namespace Publi4
@@ -69,6 +71,7 @@ namespace Publi4
             services.AddMvc();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<ICompanyRepository, CompanyRepository>();
             // Add application services.
 #if DEBUG
             {

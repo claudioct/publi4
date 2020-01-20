@@ -28,7 +28,11 @@ namespace Publi4.Models.AccountViewModels
         [StringLength(16, MinimumLength = 4, ErrorMessageResourceName = "InvalidStringLengthNumeric", ErrorMessageResourceType = typeof(Domain.Resources.ModelBindingValidationMessages))]
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
+
+        public Guid Company { get; set; }
+
         public string Password { get; set; }
+
         public string UserType { get; set; }
     }
 }
