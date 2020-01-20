@@ -71,9 +71,12 @@ namespace Publi4
 
 
 
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                    .AddRazorRuntimeCompilation();
             services.AddMvc();
+            
+
+
 
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<ICompanyRepository, CompanyRepository>();

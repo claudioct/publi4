@@ -23,12 +23,10 @@
                 </div>
             </li>
             <li class="@Html.IsSelected(controller: "Home", action: "Index")">
-                <a href="@Url.Action("Main", "Index")"><i class="fa fa-diamond"></i> <span class="nav-label">Main</span> <span class="label label-primary float-right">Main</span></a>
+                <a href="@Url.Action("Main", "Index")"><i class="fa fa-diamond"></i> <span class="nav-label">Home</span> 
+                    @*<span class="label label-primary float-right">Main</span>*@
+                </a>
             </li>
-            <li class="@Html.IsSelected(controller: "Home", action: "Minor")">
-                <a href="@Url.Action("Minor", "Home")"><i class="fa fa-server"></i> <span class="nav-label">Minor</span></a>
-            </li>
-
             @if (User.IsInRole("Administrador"))
             {
                 <li class="@Html.IsSelected(controller: "Users")">
